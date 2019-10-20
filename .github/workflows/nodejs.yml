@@ -20,7 +20,7 @@ jobs:
     - name: truly.js CI
       run: |
         npm ci
-        npm type-check
+        npm run type-check
         npm test
         npm run build
       env:
