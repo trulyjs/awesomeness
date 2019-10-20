@@ -2,9 +2,14 @@
   "name": "@truly.js/awesomeness",
   "version": "0.0.0",
   "description": "Coming soon!",
-  "main": "compiled/awesomeness.js",
+  "main": "built/awesomeness.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cd tests && tsc && ava",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "build": "npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel source --out-dir built --extensions \".ts,.tsx\""
   },
   "repository": {
     "type": "git",
@@ -18,5 +23,19 @@
   "bugs": {
     "url": "https://github.com/trulyjs/awesomeness/issues"
   },
-  "homepage": "https://github.com/trulyjs/awesomeness#readme"
+  "homepage": "https://github.com/trulyjs/awesomeness#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-numeric-separator": "^7.2.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/node": "^12.11.1",
+    "ava": "^2.4.0",
+    "ava-describe": "^2.0.0",
+    "typescript": "^3.6.4"
+  }
 }
