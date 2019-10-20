@@ -3,14 +3,6 @@
   "version": "0.0.0",
   "description": "Coming soon!",
   "main": "built/awesomeness.js",
-  "scripts": {
-    "test": "cd tests && tsc && ava",
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --watch",
-    "build": "npm run build:types && npm run build:js",
-    "build:types": "tsc --emitDeclarationOnly",
-    "build:js": "babel source --out-dir built --extensions \".ts,.tsx\""
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/trulyjs/awesomeness.git"
@@ -20,6 +12,39 @@
   ],
   "author": "James Knight (knight.of.design@gmail.com)",
   "license": "MIT",
+  "scripts": {
+    "test": "ava",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "build": "npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel source --out-dir built --extensions \".ts\""
+  },
+  "ava": {
+    "files": [
+      "tests/**/*"
+    ],
+    "sources": [
+      "source/**/*"
+    ],
+    "cache": true,
+    "concurrency": 5,
+    "failFast": true,
+    "failWithoutAssertions": false,
+    "verbose": true,
+    "compileEnhancements": true,
+    "require": [
+      "@babel/register"
+    ],
+    "babel": {
+      "extensions": [
+        "ts"
+      ],
+      "testOptions": {
+        "babelrc": false
+      }
+    }
+  },
   "bugs": {
     "url": "https://github.com/trulyjs/awesomeness/issues"
   },
@@ -33,6 +58,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-typescript": "^7.6.0",
+    "@babel/register": "^7.6.2",
     "@types/node": "^12.11.1",
     "ava": "^2.4.0",
     "ava-describe": "^2.0.0",
