@@ -1,1 +1,0 @@
-{"version":3,"sources":["../source/awesomeness.ts"],"names":["console","log"],"mappings":";;AAAAA,OAAO,CAACC,GAAR,CAAY,cAAZ","sourcesContent":["console.log('Coming soon!')\n"],"file":"awesomeness.js"}

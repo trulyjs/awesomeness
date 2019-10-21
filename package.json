@@ -3,14 +3,6 @@
   "version": "0.0.0",
   "description": "Coming soon!",
   "main": "built/awesomeness.js",
-  "scripts": {
-    "test": "cd tests && tsc && ava",
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --watch",
-    "build": "npm run build:types && npm run build:js",
-    "build:types": "tsc --emitDeclarationOnly",
-    "build:js": "babel source --out-dir built --extensions \".ts,.tsx\""
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/trulyjs/awesomeness.git"
@@ -20,22 +12,35 @@
   ],
   "author": "James Knight (knight.of.design@gmail.com)",
   "license": "MIT",
+  "scripts": {
+    "test": "ava",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "build": "npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "cross-env NODE_ENV=production babel library --out-dir built --extensions \".ts\"",
+    "build:test": "babel library --out-dir library --extensions \".ts\""
+  },
   "bugs": {
     "url": "https://github.com/trulyjs/awesomeness/issues"
   },
   "homepage": "https://github.com/trulyjs/awesomeness#readme",
-  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.6.4",
     "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-numeric-separator": "^7.2.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/plugin-transform-typescript": "^7.6.3",
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-typescript": "^7.6.0",
+    "@babel/register": "^7.6.2",
     "@types/node": "^12.11.1",
     "ava": "^2.4.0",
     "ava-describe": "^2.0.0",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
+    "babel-preset-minify": "^0.5.1",
+    "cross-env": "^6.0.3",
     "typescript": "^3.6.4"
   }
 }
