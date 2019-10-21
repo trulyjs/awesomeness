@@ -1,1 +1,1 @@
-console.log("Coming soon!");const truly=function(){};export default truly;
+function _defineProperty(a,b,c){return b in a?Object.defineProperty(a,b,{value:c,enumerable:!0,configurable:!0,writable:!0}):a[b]=c,a}console.log("Coming soon!");class Expression{constructor(a){_defineProperty(this,"context",void 0),this.context=a}}class Truly extends Expression{constructor(a){super(a)}and(a){return this.context=this.context&&a,this}or(a){return this.context=this.context||a,this}then(){return this.context}}const truly=function(a){return new Truly(a)};export default truly;
