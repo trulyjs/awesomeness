@@ -5,7 +5,7 @@ module.exports = {
     ["@babel/env", {
       loose: true,
       targets : {
-      node: '6.5'
+      node: "6.5"
     }}],
     ["@babel/typescript"],
     ["minify", {

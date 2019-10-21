@@ -17,6 +17,6 @@ export default {
   ],
 
   babel: {
-    extensions: ['ts']
+    extensions: ["ts"]
   }
 }
