@@ -3,12 +3,11 @@ module.exports = {
   sourceMaps: true,
   presets: [
     ["@babel/env", {
-      modules: false,
       loose: true,
       targets : {
       node: '6.5'
     }}],
-    "@babel/typescript",
+    ["@babel/typescript"],
     ["minify", {
       keepFnName: true,
       keepClassName: true

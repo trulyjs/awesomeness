@@ -1,12 +1,2 @@
-declare class Expression {
-    context: any;
-    constructor(subject: any);
-}
-declare class Truly extends Expression {
-    constructor(subject?: any);
-    and(condition: boolean): this;
-    or(condition: boolean): this;
-    then(): any;
-}
-declare const truly: (subject: any) => Truly;
+declare function truly(subject: any): any;
 export default truly;

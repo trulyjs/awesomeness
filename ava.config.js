@@ -1,6 +1,6 @@
 export default {
   "files": [
-    "library/**/*.ts"
+    "tests/**/*.spec.ts"
   ],
   "sources": [
     "library/**/*.ts"
@@ -11,13 +11,12 @@ export default {
   "failFast": true,
   "failWithoutAssertions": false,
   "verbose": true,
-  "compileEnhancements": true,
+  "compileEnhancements": false,
   "require": [
     "@babel/register"
   ],
-  "babel" : {
-    "extensions": [
-      "ts"
-    ]
+
+  babel: {
+    extensions: ['ts']
   }
 }
