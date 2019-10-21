@@ -11,7 +11,7 @@ let usesJavaScript = true,
     print = (x) => console.log(x)
 
 if (truly(usesJavaScript).and(isAwesome).then()){
-  print('Sweet!')
+  print("Sweet!")
 }
 
 let isSmallestEvenNumber = true
