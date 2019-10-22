@@ -6,12 +6,12 @@ Helpers for constructing chainable expressions.
 ```js
 import truly from "@truly.js/awesomeness"
 
-let usesJavaScript = true,
-    isAwesome = true,
-    print = (x) => console.log(x)
+let usingJavaScript = true,
+    itFeelsAwesome = true,
+    say = (x) => console.log(x)
 
-if (truly(usesJavaScript).and(isAwesome).then()){
-  print("Sweet!")
+if (truly(usingJavaScript).and(itFeelsAwesome).then()){
+  say("Sweet!")
 }
 
 let isSmallestEvenNumber = true

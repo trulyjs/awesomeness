@@ -2,7 +2,6 @@ import Truly from "../truly"
 
 if (process.env.NODE_ENV !== "production") {
   const describe = require("ava-describe").describe
-  extension(Truly)
   let truly = (subject):any => new Truly(subject)
   describe("Truly extension 'or'", {
 
@@ -13,7 +12,9 @@ if (process.env.NODE_ENV !== "production") {
       t.false(truly(false).or(false).then())
     }
   })
-
+}
+export interface ITruly {
+  or: (boolean)=> ITruly
 }
 
 export default function extension (Truly: any) {

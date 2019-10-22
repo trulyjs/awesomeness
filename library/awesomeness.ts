@@ -1,8 +1,12 @@
-import Truly from "./truly"
-import boolean from "./boolean-awesomeness"
+import Truly, {ITruly as ITrulyBase} from "./truly"
+import booleanExtension ,{ITruly as ITrulyBoolean} from "./boolean-awesomeness"
 
-boolean(Truly)
-function truly (subject) {
+interface ITruly extends ITrulyBase, ITrulyBoolean{
+}
+
+booleanExtension(Truly)
+
+function truly (subject): ITruly {
   const trulyAwesomeness = new Truly(subject)
   return (trulyAwesomeness as any)
 }
