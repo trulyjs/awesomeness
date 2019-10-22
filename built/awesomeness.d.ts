@@ -1,12 +1,6 @@
-declare class Expression {
-    context: any;
-    constructor(subject: any);
+import { ITruly as ITrulyBase } from "./truly";
+import { ITruly as ITrulyBoolean } from "./boolean-awesomeness";
+interface ITruly extends ITrulyBase, ITrulyBoolean {
 }
-declare class Truly extends Expression {
-    constructor(subject?: any);
-    and(condition: boolean): this;
-    or(condition: boolean): this;
-    then(): any;
-}
-declare const truly: (subject: any) => Truly;
+declare function truly(subject: any): ITruly;
 export default truly;
