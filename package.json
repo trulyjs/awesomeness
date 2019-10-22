@@ -1,7 +1,7 @@
 {
   "name": "@truly.js/awesomeness",
-  "version": "1.1.0",
-  "description": "Coming soon!",
+  "version": "1.1.1",
+  "description": "Truly friendly, chainable methods",
   "main": "built/awesomeness.js",
   "repository": {
     "type": "git",
