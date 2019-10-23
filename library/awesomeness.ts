@@ -1,14 +1,11 @@
-import Truly, {ITruly as ITrulyBase} from "./truly"
-import booleanExtension ,{ITruly as ITrulyBoolean} from "./boolean-awesomeness"
+import Truly, {ITruly as ITrulyBase, truly as trulyAwesomeness} from "./truly"
+import booleanExtension, {ITruly as ITrulyBoolean} from "./boolean-awesomeness"
 
 interface ITruly extends ITrulyBase, ITrulyBoolean{
 }
 
 booleanExtension(Truly)
 
-function truly (subject): ITruly {
-  const trulyAwesomeness = new Truly(subject)
-  return (trulyAwesomeness as any)
-}
+const truly: (any) => ITruly = trulyAwesomeness as (any) => ITruly
 
 export default truly
