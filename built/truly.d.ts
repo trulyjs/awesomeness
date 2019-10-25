@@ -1,3 +1,4 @@
+declare let Truly: ITrulyMaker;
 export declare type TrulyContext = any;
 export declare type TrulySubject = any;
 export interface TrulyExtension {
@@ -6,19 +7,14 @@ export interface TrulyExtension {
     transform: (TrulySubject: any, TrulyContext: any) => TrulyContext;
 }
 export interface ITruly {
-    then: (any: any) => TrulyContext;
+    then: (any?: any) => TrulyContext;
 }
-declare class TrulyBase implements ITruly {
-    protected context: TrulyContext;
-    static extend(extensions: {
+export interface ITrulyMaker {
+    new (any?: any): any;
+    extend: (extensions: {
         [key: string]: TrulyExtension;
-    }): void;
-    static register(extension: TrulyExtension): void;
-    then(result?: any): any;
+    }) => void;
+    register: (extension: TrulyExtension) => void;
 }
-declare function Truly(this: TrulyBase, subject?: TrulySubject): void;
-declare namespace Truly {
-    var extend: typeof TrulyBase.extend;
-    var register: typeof TrulyBase.register;
-}
+export declare function truly(subject?: any): ITruly;
 export default Truly;

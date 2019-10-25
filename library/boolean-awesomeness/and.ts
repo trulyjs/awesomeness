@@ -2,7 +2,7 @@ import Truly from "../truly"
 
 if (process.env.NODE_ENV !== "production") {
   const describe = require("ava-describe").describe
-  let truly = (subject):any => new Truly(subject)
+  let truly = (subject?):any => new Truly(subject)
 
   describe("Truly extension 'and'", {
     "can handle the logical operation 'A and B'": (t) => {
