@@ -1,17 +1,15 @@
-import and, {ITruly as ITrulyAnd} from "./and"
-import or, {ITruly as ITrulyOr} from "./or"
-import equals, {ITruly as ITrulyEquals} from "./equals"
-
-
-export interface ITruly extends
-  ITrulyAnd,
-  ITrulyOr,
-  ITrulyEquals
-
-{}
+import defined from "./defined"
+import and from "./and"
+import or from "./or"
+import not from "./not"
+import is  from "./is"
+import equals from "./equals"
 
 export default (Truly: any) => {
+  defined(Truly)
   and(Truly)
   or(Truly)
+  not(Truly)
+  is(Truly)
   equals(Truly)
 }

@@ -2,16 +2,19 @@ module.exports = {
   highlightCode:true,
   sourceMaps: true,
   presets: [
+
     ["@babel/env", {
       loose: true,
       targets : {
-      node: "6.5"
+      node: (process.env.NODE_ENV === 'production') ? "6.5" : "12"
     }}],
     ["@babel/typescript"],
-    ["minify", {
+    ...(process.env.NODE_ENV === 'production')
+      ? [["minify", {
       keepFnName: true,
       keepClassName: true
-    }]
+      }]]
+      : []
   ],
   plugins: [
     "@babel/proposal-class-properties",

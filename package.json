@@ -19,7 +19,7 @@
     "build": "npm run build:types && npm run build:js",
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "cross-env NODE_ENV=production babel library --out-dir built --extensions \".ts\"",
-    "build:test": "babel library --out-dir library --extensions \".ts\""
+    "build:test": "babel library --config babel.test.config.js --out-dir library --extensions \".ts\""
   },
   "bugs": {
     "url": "https://github.com/trulyjs/awesomeness/issues"
