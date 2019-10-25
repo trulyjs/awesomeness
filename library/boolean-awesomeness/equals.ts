@@ -1,24 +1,29 @@
-import Truly from "../truly"
+import {
+  ITrulyMaker,
+  truly
+} from "../truly"
 
 if (process.env.NODE_ENV !== "production") {
-  const describe = require("ava-describe").describe
-  let truly = (subject):any => new Truly(subject)
+  type Assertion = import("ava").Assertions
+  const describe = require("ava-describe").describe as (title: string, testCases:any) => void
 
   describe("Truly extension 'equals'", {
-    "can handle the logical operation 'A equals B'": (t) => {
-      t.true(truly(1).equals(1).then())
-      t.false(truly(1).equals(2).then())
-      t.false(truly(true).equals(false).then())
-      t.true(truly(false).equals(false).then())
+    "can handle the logical operation 'A equals B'": (assert: Assertion) => {
+      assert.true(truly(1).equals(1).then())
+      assert.false(truly(1).equals(2).then())
+      assert.false(truly(true).equals(false).then())
+      assert.true(truly(false).equals(false).then())
     },
   })
 }
 
-export interface ITruly {
-  equals: (any)=> ITruly
+declare module "../truly" {
+  interface ITruly {
+    equals: (any) => ITruly
+  }
 }
 
-export default function extension (Truly: any) {
+export default function extension (Truly: any): ITrulyMaker {
   Truly.extend({
     equals: {
       transform: (value: any, context): boolean => {
@@ -26,5 +31,7 @@ export default function extension (Truly: any) {
       }
     }
   })
+
+  return Truly
 }
 

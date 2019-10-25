@@ -1,0 +1,1 @@
+"use strict";var _truly=require("../truly");exports.__esModule=!0,exports.default=extension;function extension(a){return a.extend({is:{tip:!0,transform:(a,b)=>_truly.truly.defined(b).then()?b===a:!!a}}),a}

@@ -1,23 +1,29 @@
-import Truly from "../truly"
+import {
+  ITrulyMaker,
+  truly
+} from "../truly"
 
 if (process.env.NODE_ENV !== "production") {
-  const describe = require("ava-describe").describe
-  let truly = (subject?):any => new Truly(subject)
+  type Assertion = import("ava").Assertions
+  const describe = require("ava-describe").describe as (title: string, testCases:any) => void
+
   describe("Truly extension 'or'", {
 
-    "can handle the logical operation 'A or B'": (t) => {
-      t.true(truly(true).or(true).then())
-      t.true(truly(true).or(false).then())
-      t.true(truly(false).or(true).then())
-      t.false(truly(false).or(false).then())
+    "can handle the logical operation 'A or B'": (assert: Assertion) => {
+      assert.true(truly(true).or(true).then())
+      assert.true(truly(true).or(false).then())
+      assert.true(truly(false).or(true).then())
+      assert.false(truly(false).or(false).then())
     }
   })
 }
-export interface ITruly {
-  or: (boolean)=> ITruly
-}
 
-export default function extension (Truly: any) {
+declare module "../truly" {
+  interface ITruly {
+    or: (condition: TrulyOf<boolean>) => ITruly
+  }
+}
+export default function extension (Truly: any): ITrulyMaker {
   Truly.extend({
     or: {
       transform: (condition: boolean, context): boolean => {
@@ -25,4 +31,6 @@ export default function extension (Truly: any) {
       }
     }
   })
+
+  return Truly
 }

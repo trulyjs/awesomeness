@@ -1,26 +1,31 @@
+
 let Truly: ITrulyMaker
 
-if (process.env.NODE_ENV !== 'production') {
-  const test = require('ava')
-  const describe = require('ava-describe').describe
+if (process.env.NODE_ENV !== "production") {
 
-  test('Truly can be imported', (t) => t.true(true))
+  const test = require("ava") as import("ava").TestInterface
+  type Assertion = import("ava").Assertions
+  const describe = require("ava-describe").describe as (title: string, testCases:any) => void
 
-  describe('Truly expression class', {
-    'can be constructed': (t) => {
-      t.truthy(truly())
-      t.truthy(truly(true))
-      t.truthy(truly(false))
+  test("Truly can be imported", (assert: Assertion) => {
+    assert.true(true)
+  })
+
+  describe("Truly expression class", {
+    "can be constructed": (assert: Assertion) => {
+      assert.truthy(truly())
+      assert.truthy(truly(true))
+      assert.truthy(truly(false))
     },
 
-    'can return the inner or provided value with \'then\'': (t) => {
-      t.true(truly(true).then())
-      t.true(truly(true).then())
-      t.is(truly(true).then('success'), 'success')
-      t.is(truly(false).then('error'), null)
+    "can return the inner or provided value with \"then\"": (assert: Assertion) => {
+      assert.true(truly(true).then())
+      assert.true(truly(true).then())
+      assert.is(truly(true).then("success"), "success")
+      assert.is(truly(false).then("error"), null)
     },
 
-    'can add an extension': (t) => {
+    "can add an extension": (assert: Assertion) => {
       Truly.extend({
         add1: {
           transform: (_, context) => context + 1
@@ -31,30 +36,37 @@ if (process.env.NODE_ENV !== 'production') {
         add1: () => ITrulyExtended
       }
 
-      const trulyExtended : (any?) => ITrulyExtended = truly as (any?) => ITrulyExtended
+      const number = truly(1) as ITrulyExtended
 
-      t.is(trulyExtended(1).add1().then(), 2)
+      assert.is(number.add1().then(), 2)
     }
   })
 }
 
 export type TrulyContext = any
 export type TrulySubject = any
+export type TrulyOf<T = {}> = ITruly | T
 
 export interface TrulyExtension {
   name?: string
+  tip?: boolean
+  chain?: boolean
   isSupported?: (TrulySubject, TrulyContext?) => boolean
   transform: (TrulySubject, TrulyContext) => TrulyContext
 }
 
 export interface ITruly {
-  then: (any?) => TrulyContext
+  then: (value?: TrulyOf<any>) => TrulyContext
 }
 
 export interface ITrulyMaker {
   new(any?)
   extend: (extensions: { [key: string]: TrulyExtension }) => void
   register: (extension: TrulyExtension) => void
+}
+
+export interface ITrulyTip {
+  (any?): ITruly
 }
 
 function GetMethods(A): string[] {
@@ -68,6 +80,7 @@ function copyUnique(property, source, destination) {
 }
 
 function LinkMethods(A,B) {
+  if (!A) return B
 
   GetMethods(A.prototype).forEach(
     method => copyUnique(method, A.prototype, B.prototype)
@@ -80,9 +93,24 @@ function LinkMethods(A,B) {
   return B
 }
 
+function generateTrulyMaker(): ITrulyMaker {
+  return LinkMethods(TrulyBase,
+    function(subject?:any){
+      this.construct(subject)
+    }) as ITrulyMaker
+}
+
+function flattenNested(value: TrulySubject): TrulySubject {
+
+  return (value instanceof Truly)
+    ? flattenNested(value.then())
+    : value
+
+}
+
 function executeExtension(extension:TrulyExtension, subject: TrulySubject, context: TrulyContext) {
-  if ('isSupported' in extension && !extension.isSupported(subject)) {
-    const stringify = (obj: any) => JSON.stringify(obj, null, '2')
+  if ("isSupported" in extension && !extension.isSupported(subject)) {
+    const stringify = (obj: any) => JSON.stringify(obj, null, "2")
     throw Error(
       `Truly extension "${extension.name}" failed to support: 
                           subject: ${stringify(subject)})
@@ -94,20 +122,33 @@ function executeExtension(extension:TrulyExtension, subject: TrulySubject, conte
 }
 
 function register(extension: TrulyExtension) {
-  if (!extension.name) throw Error('Truly register requires a name')
+  if (!extension.name) throw Error("Truly register requires a name")
+
+  let TrulyMaker = Truly.prototype,
+      name = extension.name,
+      chain = extension.chain !== false
 
   const parentExtension =
-    GetMethods(Truly.prototype).includes(extension.name)
-      ? Truly.prototype[extension.name]
+    GetMethods(TrulyMaker).includes(extension.name)
+      ? TrulyMaker[extension.name]
       : null
 
-  Truly.prototype[extension.name] = function (this: TrulyBase, subject: TrulySubject) {
+  const extensionBootstrap = function (this: TrulyBase, subject: TrulySubject) {
     if (parentExtension) {
       parentExtension.call(this, subject, this.context)
     }
-    this.context = executeExtension(extension, subject, this.context)
 
+    subject = flattenNested(subject)
+    this.context = executeExtension(extension, subject, this.context)
     return this
+  }
+
+  if (chain) {
+    TrulyMaker[name] = extensionBootstrap
+  }
+
+  if (extension.tip) {
+    truly[name] = (subject: TrulySubject) => extensionBootstrap.call(new Truly(), subject)
   }
 }
 
@@ -116,7 +157,7 @@ function extend(extensions: { [key: string]: TrulyExtension }) {
     const extension = extensions[extensionName]
 
     if (extension.name) {
-      throw Error('Truly extend does not support name in extension body')
+      throw Error("Truly extend does not support name in extension body")
     }
 
     extension.name = extensionName
@@ -125,7 +166,7 @@ function extend(extensions: { [key: string]: TrulyExtension }) {
   })
 }
 
-class TrulyBase implements ITruly {
+export class TrulyBase {
   protected context: TrulyContext
 
   static extend = extend
@@ -136,7 +177,7 @@ class TrulyBase implements ITruly {
   }
 
   then(result?: any): any {
-    if (typeof result !== 'undefined') {
+    if (typeof result !== "undefined") {
       this.context = this.context ? result : null
     }
 
@@ -144,13 +185,10 @@ class TrulyBase implements ITruly {
   }
 }
 
-export function truly (subject?): ITruly {
-  return new Truly(subject)
-}
+Truly = generateTrulyMaker()
 
-Truly = LinkMethods(TrulyBase,
-  function(subject?:any){
-  this.construct(subject)
-  }) as ITrulyMaker
+export const truly: ITrulyTip = function truly (subject?): ITruly {
+  return new Truly(subject)
+} as ITrulyTip
 
 export default Truly

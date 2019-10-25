@@ -1,1 +1,1 @@
-"use strict";var _truly=_interopRequireDefault(require("../truly"));exports.__esModule=!0,exports.default=extension;function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}function extension(a){a.extend({equals:{transform:(a,b)=>b===a}})}
+"use strict";var _truly=require("../truly");exports.__esModule=!0,exports.default=extension;function extension(a){return a.extend({equals:{transform:(a,b)=>b===a}}),a}
