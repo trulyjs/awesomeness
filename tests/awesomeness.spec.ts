@@ -1,5 +1,5 @@
 import truly from "../library/awesomeness"
-import { describe } from "ava-describe"
+const describe = require("ava-describe").describe as (title: string, testCases:any) => void
 
 describe("Truly module", {
   "exports a function": (t) => {
