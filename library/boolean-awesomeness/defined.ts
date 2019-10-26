@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== "production") {
 
 declare module "../truly" {
   interface ITrulyTip {
-    defined: (any)=> ITruly
+    defined: (value: TrulyOf<any>)=> ITruly
   }
 }
 

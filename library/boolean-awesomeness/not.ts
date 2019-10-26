@@ -25,11 +25,11 @@ if (process.env.NODE_ENV !== "production") {
 
 declare module "../truly" {
   interface ITruly {
-    not: (condition: TrulyOf<boolean>) => ITruly
+    not: (value: TrulyOf<any>) => ITruly
   }
 
-  interface ITrulyTip  {
-    not: (condition: TrulyOf<boolean>) => ITruly
+  interface ITrulyTip {
+    not: (value: TrulyOf<any>) => ITruly
   }
 }
 
