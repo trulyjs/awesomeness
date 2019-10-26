@@ -19,7 +19,7 @@ if (process.env.NODE_ENV !== "production") {
 
 declare module "../truly" {
   interface ITruly {
-    equals: (any) => ITruly
+    equals: (value: TrulyOf<any>) => ITruly
   }
 }
 
